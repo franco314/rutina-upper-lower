@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { 
-  Dumbbell, 
-  Calendar, 
-  Target, 
-  Info, 
-  ChevronRight, 
-  Clock, 
+import {
+  Dumbbell,
+  Calendar,
+  Info,
+  ChevronRight,
+  Clock,
   ArrowUpCircle,
   Activity,
   User,
@@ -84,14 +83,14 @@ const App = () => {
         </header>
 
         {/* Day Selector */}
-        <nav className="flex flex-wrap gap-2 mb-8">
+        <nav className="grid grid-cols-4 gap-2 mb-8">
           {Object.keys(routine).map((day) => (
             <button
               key={day}
               onClick={() => setActiveDay(day)}
-              className={`px-5 py-3 rounded-xl font-bold transition-all duration-200 border-b-4 ${
-                activeDay === day 
-                ? `${routine[day].color} text-white border-black/20 translate-y-[-2px] shadow-lg` 
+              className={`px-2 md:px-5 py-2 md:py-3 rounded-xl font-bold text-xs md:text-base transition-all duration-200 border-b-4 ${
+                activeDay === day
+                ? `${routine[day].color} text-white border-black/20 translate-y-[-2px] shadow-lg`
                 : 'bg-neutral-800 text-neutral-400 border-neutral-950 hover:bg-neutral-700'
               }`}
             >
@@ -115,41 +114,34 @@ const App = () => {
               <table className="w-full text-left">
                 <thead>
                   <tr className="bg-neutral-850 text-neutral-500 text-xs uppercase font-bold tracking-wider">
-                    <th className="px-6 py-4">Ejercicio</th>
-                    <th className="px-6 py-4">Series/Reps</th>
-                    <th className="px-6 py-4 hidden md:table-cell text-center">Enfoque</th>
-                    <th className="px-6 py-4 text-right">Detalle</th>
+                    <th className="px-3 md:px-6 py-4">Ejercicio</th>
+                    <th className="px-3 md:px-6 py-4">Series</th>
+                    <th className="px-3 md:px-6 py-4 text-center">Enfoque</th>
+                    <th className="px-3 md:px-6 py-4 text-right">Detalle</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-neutral-700">
                   {currentDayData.exercises.map((ex, idx) => (
                     <tr key={idx} className="hover:bg-neutral-750 transition-colors group">
-                      <td className="px-6 py-5">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold ${currentDayData.color} text-white`}>
+                      <td className="px-3 md:px-6 py-3 md:py-5">
+                        <div className="flex items-center gap-2 md:gap-3">
+                          <div className={`w-6 h-6 md:w-8 md:h-8 rounded-lg flex items-center justify-center text-xs font-bold ${currentDayData.color} text-white shrink-0`}>
                             {idx + 1}
                           </div>
-                          <div>
-                            <p className="font-bold text-neutral-100 group-hover:text-white">{ex.name}</p>
-                            <p className="text-xs text-neutral-400 flex items-center gap-1 mt-1 md:hidden">
-                              <Target size={12} className="text-blue-500" /> {ex.target}
-                            </p>
-                          </div>
+                          <p className="font-bold text-neutral-100 group-hover:text-white text-xs md:text-base">{ex.name}</p>
                         </div>
                       </td>
-                      <td className="px-6 py-5">
-                        <div className="flex items-center gap-2">
-                          <span className="bg-neutral-900 px-2 py-1 rounded text-sm font-mono text-blue-400 border border-neutral-700">
-                            {ex.sets}x{ex.reps}
-                          </span>
-                        </div>
+                      <td className="px-3 md:px-6 py-3 md:py-5">
+                        <span className="bg-neutral-900 px-1.5 md:px-2 py-1 rounded text-xs md:text-sm font-mono text-blue-400 border border-neutral-700">
+                          {ex.sets}x{ex.reps}
+                        </span>
                       </td>
-                      <td className="px-6 py-5 hidden md:table-cell text-center">
-                        <span className="text-xs bg-neutral-900/50 px-3 py-1 rounded-full text-neutral-300 border border-neutral-700">
+                      <td className="px-3 md:px-6 py-3 md:py-5 text-center">
+                        <span className="text-[10px] md:text-xs bg-neutral-900/50 px-2 md:px-3 py-1 rounded-full text-neutral-300 border border-neutral-700">
                           {ex.target}
                         </span>
                       </td>
-                      <td className="px-6 py-5 text-right">
+                      <td className="px-3 md:px-6 py-3 md:py-5 text-right">
                         <div className="group/note relative inline-block">
                           <Info size={18} className="text-neutral-500 cursor-help hover:text-white transition-colors" />
                           <div className="absolute right-0 bottom-full mb-2 w-48 p-3 bg-white text-black text-xs rounded-lg shadow-xl opacity-0 group-hover/note:opacity-100 pointer-events-none transition-opacity z-10 border border-neutral-200">
