@@ -13,56 +13,102 @@ import {
 
 const App = () => {
   const [activeDay, setActiveDay] = useState('Lunes');
+  const [currentUser, setCurrentUser] = useState('Franco');
 
-  const routine = {
-    Lunes: {
-      title: "Torso (Enfoque Empuje/Tracción)",
-      color: "bg-blue-600",
-      exercises: [
-        { name: "Press de Banca (Barra o Manc.)", sets: "3", reps: "6-8", target: "Pecho y tríceps", note: "Básico de fuerza" },
-        { name: "Jalón al Pecho (Polea alta)", sets: "3", reps: "8-10", target: "Dorsales (Amplitud)", note: "Controlar el descenso" },
-        { name: "Remo Sentado Polea Baja", sets: "3", reps: "10-12", target: "Espalda media y dorsal", note: "Sustituto: Estabilidad lumbar" },
-        { name: "Press Militar Máquina/Multi", sets: "3", reps: "8-10", target: "Hombros", note: "Permite mayor cercanía al fallo" },
-        { name: "Elevaciones Laterales", sets: "3", reps: "12-15", target: "Deltoides lateral", note: "Mancuerna o polea" },
-        { name: "Tríceps en Polea Alta", sets: "3", reps: "12-15", target: "Tríceps", note: "Cuerda o barra" }
-      ]
+  const routines = {
+    Franco: {
+      Lunes: {
+        title: "Torso (Enfoque Empuje/Tracción)",
+        color: "bg-blue-600",
+        exercises: [
+          { name: "Press de Banca (Barra o Manc.)", sets: "3", reps: "6-8", target: "Pecho y tríceps", note: "Básico de fuerza" },
+          { name: "Jalón al Pecho (Polea alta)", sets: "3", reps: "8-10", target: "Dorsales (Amplitud)", note: "Controlar el descenso" },
+          { name: "Remo Sentado Polea Baja", sets: "3", reps: "10-12", target: "Espalda media y dorsal", note: "Sustituto: Estabilidad lumbar" },
+          { name: "Press Militar Máquina/Multi", sets: "3", reps: "8-10", target: "Hombros", note: "Permite mayor cercanía al fallo" },
+          { name: "Elevaciones Laterales", sets: "3", reps: "12-15", target: "Deltoides lateral", note: "Mancuerna o polea" },
+          { name: "Tríceps en Polea Alta", sets: "3", reps: "12-15", target: "Tríceps", note: "Cuerda o barra" }
+        ]
+      },
+      Miércoles: {
+        title: "Pierna (Enfoque Cuádriceps)",
+        color: "bg-green-600",
+        exercises: [
+          { name: "Prensa de Piernas", sets: "3", reps: "10-12", target: "Cuádriceps/General", note: "Pies zona media/baja" },
+          { name: "Sillón de Cuádriceps", sets: "3", reps: "12-15", target: "Cuádriceps (Aislamiento)", note: "Aguantar 1 seg arriba" },
+          { name: "Curl Femoral Tumbado", sets: "4", reps: "10-12", target: "Isquiotibiales", note: "Compensación de peso muerto" },
+          { name: "Aductores en Máquina", sets: "3", reps: "12-15", target: "Aductores", note: "Pausa 1s en contracción máxima" }
+        ]
+      },
+      Viernes: {
+        title: "Torso (Hipertrofia y Detalle)",
+        color: "bg-purple-600",
+        exercises: [
+          { name: "Press Inclinado", sets: "3", reps: "8-10", target: "Pectoral superior", note: "Clave para estética de torso" },
+          { name: "Jalón al Pecho", sets: "3", reps: "10-12", target: "Dorsal y bíceps", note: "Controlar el descenso" },
+          { name: "Peck Deck", sets: "3", reps: "12-15", target: "Aislamiento pecho", note: "Foco en la contracción" },
+          { name: "Deltoide Posterior", sets: "3", reps: "15-20", target: "Deltoide post./Salud", note: "Importante para postura" },
+          { name: "Curl de Bíceps (Barra Z)", sets: "3", reps: "10-12", target: "Bíceps", note: "Controlar fase excéntrica" }
+        ]
+      },
+      Sábado: {
+        title: "Pierna (Cadena Posterior)",
+        color: "bg-red-600",
+        exercises: [
+          { name: "Hip Thrust (Barra o Máquina)", sets: "3", reps: "8-10", target: "Glúteo mayor", note: "Sustituto de Peso Muerto" },
+          { name: "Prensa (Pies altos/separados)", sets: "3", reps: "10-12", target: "Glúteo e Isquios", note: "Mayor extensión de cadera" },
+          { name: "Curl Femoral Sentado", sets: "4", reps: "10-15", target: "Isquiotibiales", note: "Máximo estiramiento" },
+          { name: "Aductores en Máquina", sets: "3", reps: "12-15", target: "Aductores", note: "Estabilidad de pierna" }
+        ]
+      }
     },
-    Miércoles: {
-      title: "Pierna (Enfoque Cuádriceps)",
-      color: "bg-green-600",
-      exercises: [
-        { name: "Sentadilla Hack o Multipower", sets: "3", reps: "6-8", target: "Cuádriceps", note: "Seguridad mecánica máxima" },
-        { name: "Prensa de Piernas", sets: "3", reps: "10-12", target: "Cuádriceps/General", note: "Pies zona media/baja" },
-        { name: "Sillón de Cuádriceps", sets: "3", reps: "12-15", target: "Cuádriceps (Aislamiento)", note: "Aguantar 1 seg arriba" },
-        { name: "Curl Femoral Tumbado", sets: "4", reps: "10-12", target: "Isquiotibiales", note: "Compensación de peso muerto" },
-        { name: "Aductores en Máquina", sets: "3", reps: "12-15", target: "Aductores", note: "Pausa 1s en contracción máxima" }
-      ]
-    },
-    Viernes: {
-      title: "Torso (Hipertrofia y Detalle)",
-      color: "bg-purple-600",
-      exercises: [
-        { name: "Press Inclinado", sets: "3", reps: "8-10", target: "Pectoral superior", note: "Clave para estética de torso" },
-        { name: "Remo Máquina Pecho Apoyado", sets: "3", reps: "10-12", target: "Espalda (Sin inercia)", note: "Protege espalda baja" },
-        { name: "Jalón Pecho (Supino)", sets: "3", reps: "10-12", target: "Dorsal y bíceps", note: "Palmas hacia ti" },
-        { name: "Peck Deck o Cruces", sets: "3", reps: "12-15", target: "Aislamiento pecho", note: "Foco en la contracción" },
-        { name: "Curl de Bíceps (Barra Z)", sets: "3", reps: "10-12", target: "Bíceps", note: "Controlar fase excéntrica" },
-        { name: "Face Pull", sets: "3", reps: "15-20", target: "Deltoide post./Salud", note: "Importante para postura" }
-      ]
-    },
-    Sábado: {
-      title: "Pierna (Cadena Posterior)",
-      color: "bg-red-600",
-      exercises: [
-        { name: "Hip Thrust (Barra o Máquina)", sets: "3", reps: "8-10", target: "Glúteo mayor", note: "Sustituto de Peso Muerto" },
-        { name: "Prensa (Pies altos/separados)", sets: "3", reps: "10-12", target: "Glúteo e Isquios", note: "Mayor extensión de cadera" },
-        { name: "Curl Femoral Sentado", sets: "4", reps: "10-15", target: "Isquiotibiales", note: "Máximo estiramiento" },
-        { name: "Aductores en Máquina", sets: "3", reps: "12-15", target: "Aductores", note: "Estabilidad de pierna" },
-        { name: "Gemelo Sentado (Sóleo)", sets: "4", reps: "15-20", target: "Sóleo", note: "Rodillas flexionadas" }
-      ]
+    Leslie: {
+      Lunes: {
+        title: "Torso (Enfoque Empuje/Tracción)",
+        color: "bg-pink-600",
+        exercises: [
+          { name: "Peck Deck", sets: "3", reps: "10-12", target: "Pecho", note: "Foco en la contracción" },
+          { name: "Jalón al Pecho (Polea alta)", sets: "3", reps: "8-10", target: "Dorsales (Amplitud)", note: "Controlar el descenso" },
+          { name: "Remo Sentado Polea Baja", sets: "3", reps: "10-12", target: "Espalda media y dorsal", note: "Sustituto: Estabilidad lumbar" },
+          { name: "Press Militar Máquina/Multi", sets: "3", reps: "8-10", target: "Hombros", note: "Permite mayor cercanía al fallo" },
+          { name: "Elevaciones Laterales", sets: "3", reps: "12-15", target: "Deltoides lateral", note: "Mancuerna o polea" },
+          { name: "Tríceps en Polea Alta", sets: "3", reps: "12-15", target: "Tríceps", note: "Cuerda o barra" }
+        ]
+      },
+      Miércoles: {
+        title: "Pierna (Enfoque Cuádriceps)",
+        color: "bg-emerald-600",
+        exercises: [
+          { name: "Prensa de Piernas", sets: "3", reps: "10-12", target: "Cuádriceps/General", note: "Pies zona media/baja" },
+          { name: "Sillón de Cuádriceps", sets: "3", reps: "12-15", target: "Cuádriceps (Aislamiento)", note: "Aguantar 1 seg arriba" },
+          { name: "Curl Femoral Tumbado", sets: "4", reps: "10-12", target: "Isquiotibiales", note: "Compensación de peso muerto" },
+          { name: "Aductores en Máquina", sets: "3", reps: "12-15", target: "Aductores", note: "Pausa 1s en contracción máxima" }
+        ]
+      },
+      Viernes: {
+        title: "Torso (Hipertrofia y Detalle)",
+        color: "bg-violet-600",
+        exercises: [
+          { name: "Press Inclinado", sets: "3", reps: "8-10", target: "Pectoral superior", note: "Clave para estética de torso" },
+          { name: "Jalón al Pecho", sets: "3", reps: "10-12", target: "Dorsal y bíceps", note: "Controlar el descenso" },
+          { name: "Peck Deck", sets: "3", reps: "12-15", target: "Aislamiento pecho", note: "Foco en la contracción" },
+          { name: "Deltoide Posterior", sets: "3", reps: "15-20", target: "Deltoide post./Salud", note: "Importante para postura" },
+          { name: "Curl de Bíceps (Barra Z)", sets: "3", reps: "10-12", target: "Bíceps", note: "Controlar fase excéntrica" }
+        ]
+      },
+      Sábado: {
+        title: "Pierna (Cadena Posterior)",
+        color: "bg-rose-600",
+        exercises: [
+          { name: "Hip Thrust (Barra o Máquina)", sets: "3", reps: "8-10", target: "Glúteo mayor", note: "Sustituto de Peso Muerto" },
+          { name: "Prensa (Pies altos/separados)", sets: "3", reps: "10-12", target: "Glúteo e Isquios", note: "Mayor extensión de cadera" },
+          { name: "Curl Femoral Sentado", sets: "4", reps: "10-15", target: "Isquiotibiales", note: "Máximo estiramiento" },
+          { name: "Aductores en Máquina", sets: "3", reps: "12-15", target: "Aductores", note: "Estabilidad de pierna" }
+        ]
+      }
     }
   };
 
+  const routine = routines[currentUser];
   const currentDayData = routine[activeDay];
 
   return (
@@ -76,9 +122,23 @@ const App = () => {
             </h1>
             <p className="text-neutral-400 mt-1">Optimización para Hipertrofia y Salud Lumbar</p>
           </div>
-          <div className="bg-neutral-800 p-3 rounded-xl border border-neutral-700 flex items-center gap-3">
-            <User className="text-blue-400" />
-            <span className="font-medium text-sm">Volumen de Entrenamiento: Alto</span>
+          <div className="flex items-center gap-3">
+            <div className="bg-neutral-800 p-2 rounded-xl border border-neutral-700 flex items-center gap-2">
+              <User className="text-blue-400" size={18} />
+              {['Franco', 'Leslie'].map((user) => (
+                <button
+                  key={user}
+                  onClick={() => setCurrentUser(user)}
+                  className={`px-3 py-1.5 rounded-lg font-medium text-sm transition-all duration-200 ${
+                    currentUser === user
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-neutral-700 text-neutral-400 hover:bg-neutral-600'
+                  }`}
+                >
+                  {user}
+                </button>
+              ))}
+            </div>
           </div>
         </header>
 
