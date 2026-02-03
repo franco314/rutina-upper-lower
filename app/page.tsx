@@ -36,6 +36,7 @@ type Routines = {
 };
 
 export default function Home() {
+  console.log("[v0] Home component rendering");
   const [activeDay, setActiveDay] = useState("Lunes");
   const [currentUser, setCurrentUser] = useState("Franco");
 
