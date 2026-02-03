@@ -12,528 +12,325 @@ import {
   Zap,
 } from "lucide-react";
 
-type Exercise = {
+type UserName = "Franco" | "Leslie";
+type DayName = "Lunes" | "Miércoles" | "Viernes" | "Sábado";
+
+interface Exercise {
   name: string;
   sets: string;
   reps: string;
-  target: string;
-  note: string;
-};
+  focus: string;
+  notes: string;
+}
 
-type DayData = {
-  title: string;
+interface DayInfo {
+  name: string;
+  subtitle: string;
   color: string;
   exercises: Exercise[];
-};
+}
 
-type UserRoutine = {
-  [day: string]: DayData;
-};
+interface UserRoutine {
+  name: string;
+  days: Record<DayName, DayInfo>;
+}
 
-type Routines = {
-  [user: string]: UserRoutine;
-};
-
-export default function Home() {
-  const [activeDay, setActiveDay] = useState("Lunes");
-  const [currentUser, setCurrentUser] = useState("Franco");
-
-  const routines: Routines = {
-    Franco: {
+const routines: Record<UserName, UserRoutine> = {
+  Franco: {
+    name: "Franco",
+    days: {
       Lunes: {
-        title: "Torso (Enfoque Empuje/Tracción)",
+        name: "Torso",
+        subtitle: "Enfoque Empuje/Tracción",
         color: "bg-blue-600",
         exercises: [
-          {
-            name: "Press de Banca (Barra o Manc.)",
-            sets: "3",
-            reps: "6-8",
-            target: "Pecho y tríceps",
-            note: "Básico de fuerza",
-          },
-          {
-            name: "Jalón al Pecho (Polea alta)",
-            sets: "3",
-            reps: "8-10",
-            target: "Dorsales (Amplitud)",
-            note: "Controlar el descenso",
-          },
-          {
-            name: "Remo Sentado Polea Baja",
-            sets: "3",
-            reps: "10-12",
-            target: "Espalda media y dorsal",
-            note: "Sustituto: Estabilidad lumbar",
-          },
-          {
-            name: "Press Militar Máquina/Multi",
-            sets: "3",
-            reps: "8-10",
-            target: "Hombros",
-            note: "Permite mayor cercanía al fallo",
-          },
-          {
-            name: "Elevaciones Laterales",
-            sets: "3",
-            reps: "12-15",
-            target: "Deltoides lateral",
-            note: "Mancuerna o polea",
-          },
-          {
-            name: "Tríceps en Polea Alta",
-            sets: "3",
-            reps: "12-15",
-            target: "Tríceps",
-            note: "Cuerda o barra",
-          },
+          { name: "Press Banca", sets: "4", reps: "6-8", focus: "Pecho", notes: "Control excéntrico" },
+          { name: "Remo con Barra", sets: "4", reps: "6-8", focus: "Espalda", notes: "Retracción escapular" },
+          { name: "Press Militar", sets: "3", reps: "8-10", focus: "Hombros", notes: "Sin rebote" },
+          { name: "Dominadas", sets: "3", reps: "8-10", focus: "Espalda", notes: "Rango completo" },
+          { name: "Curl Bíceps", sets: "3", reps: "10-12", focus: "Bíceps", notes: "Supinación" },
+          { name: "Extensión Tríceps", sets: "3", reps: "10-12", focus: "Tríceps", notes: "Codos fijos" },
         ],
       },
       Miércoles: {
-        title: "Pierna (Enfoque Cuádriceps)",
+        name: "Pierna",
+        subtitle: "Enfoque Cuádriceps",
         color: "bg-green-600",
         exercises: [
-          {
-            name: "Prensa de Piernas",
-            sets: "3",
-            reps: "10-12",
-            target: "Cuádriceps/General",
-            note: "Pies zona media/baja",
-          },
-          {
-            name: "Sillón de Cuádriceps",
-            sets: "3",
-            reps: "12-15",
-            target: "Cuádriceps (Aislamiento)",
-            note: "Aguantar 1 seg arriba",
-          },
-          {
-            name: "Curl Femoral Tumbado",
-            sets: "4",
-            reps: "10-12",
-            target: "Isquiotibiales",
-            note: "Compensación de peso muerto",
-          },
-          {
-            name: "Aductores en Máquina",
-            sets: "3",
-            reps: "12-15",
-            target: "Aductores",
-            note: "Pausa 1s en contracción máxima",
-          },
+          { name: "Sentadilla", sets: "4", reps: "6-8", focus: "Cuádriceps", notes: "Profundidad paralela" },
+          { name: "Prensa", sets: "4", reps: "8-10", focus: "Cuádriceps", notes: "Pies al centro" },
+          { name: "Extensión Cuádriceps", sets: "3", reps: "12-15", focus: "Cuádriceps", notes: "Pico de contracción" },
+          { name: "Peso Muerto Rumano", sets: "3", reps: "10-12", focus: "Isquiotibiales", notes: "Rodillas semi-flexionadas" },
+          { name: "Curl Femoral", sets: "3", reps: "12-15", focus: "Isquiotibiales", notes: "Control negativo" },
+          { name: "Elevación Talones", sets: "4", reps: "15-20", focus: "Pantorrillas", notes: "Estiramiento completo" },
         ],
       },
       Viernes: {
-        title: "Torso (Hipertrofia y Detalle)",
+        name: "Torso",
+        subtitle: "Hipertrofia y Detalle",
         color: "bg-purple-600",
         exercises: [
-          {
-            name: "Press Inclinado",
-            sets: "3",
-            reps: "8-10",
-            target: "Pectoral superior",
-            note: "Clave para estética de torso",
-          },
-          {
-            name: "Jalón al Pecho",
-            sets: "3",
-            reps: "10-12",
-            target: "Dorsal y bíceps",
-            note: "Controlar el descenso",
-          },
-          {
-            name: "Peck Deck",
-            sets: "3",
-            reps: "12-15",
-            target: "Aislamiento pecho",
-            note: "Foco en la contracción",
-          },
-          {
-            name: "Deltoide Posterior",
-            sets: "3",
-            reps: "15-20",
-            target: "Deltoide post./Salud",
-            note: "Importante para postura",
-          },
-          {
-            name: "Curl de Bíceps (Barra Z)",
-            sets: "3",
-            reps: "10-12",
-            target: "Bíceps",
-            note: "Controlar fase excéntrica",
-          },
+          { name: "Press Inclinado", sets: "4", reps: "8-10", focus: "Pecho superior", notes: "30-45 grados" },
+          { name: "Jalón al Pecho", sets: "4", reps: "8-10", focus: "Espalda", notes: "Agarre amplio" },
+          { name: "Aperturas", sets: "3", reps: "12-15", focus: "Pecho", notes: "Codos ligeramente flexionados" },
+          { name: "Remo Cable", sets: "3", reps: "10-12", focus: "Espalda media", notes: "Squeeze al final" },
+          { name: "Elevaciones Laterales", sets: "3", reps: "12-15", focus: "Deltoides lateral", notes: "Sin momentum" },
+          { name: "Face Pull", sets: "3", reps: "15-20", focus: "Deltoides posterior", notes: "Rotación externa" },
         ],
       },
       Sábado: {
-        title: "Pierna (Cadena Posterior)",
+        name: "Pierna",
+        subtitle: "Cadena Posterior",
         color: "bg-red-600",
         exercises: [
-          {
-            name: "Hip Thrust (Barra o Máquina)",
-            sets: "3",
-            reps: "8-10",
-            target: "Glúteo mayor",
-            note: "Sustituto de Peso Muerto",
-          },
-          {
-            name: "Prensa (Pies altos/separados)",
-            sets: "3",
-            reps: "10-12",
-            target: "Glúteo e Isquios",
-            note: "Mayor extensión de cadera",
-          },
-          {
-            name: "Curl Femoral Sentado",
-            sets: "4",
-            reps: "10-15",
-            target: "Isquiotibiales",
-            note: "Máximo estiramiento",
-          },
-          {
-            name: "Aductores en Máquina",
-            sets: "3",
-            reps: "12-15",
-            target: "Aductores",
-            note: "Estabilidad de pierna",
-          },
+          { name: "Peso Muerto", sets: "4", reps: "5-6", focus: "Cadena posterior", notes: "Espalda neutra" },
+          { name: "Hip Thrust", sets: "4", reps: "8-10", focus: "Glúteos", notes: "Pausa arriba" },
+          { name: "Zancadas", sets: "3", reps: "10-12 c/u", focus: "Cuádriceps/Glúteos", notes: "Paso largo" },
+          { name: "Buenos Días", sets: "3", reps: "10-12", focus: "Isquiotibiales", notes: "Peso moderado" },
+          { name: "Abducción Cadera", sets: "3", reps: "15-20", focus: "Glúteo medio", notes: "Tensión constante" },
+          { name: "Elevación Talones Sentado", sets: "4", reps: "15-20", focus: "Sóleo", notes: "Rango completo" },
         ],
       },
     },
-    Leslie: {
+  },
+  Leslie: {
+    name: "Leslie",
+    days: {
       Lunes: {
-        title: "Torso (Enfoque Empuje/Tracción)",
+        name: "Torso",
+        subtitle: "Enfoque Empuje/Tracción",
         color: "bg-pink-600",
         exercises: [
-          {
-            name: "Peck Deck",
-            sets: "3",
-            reps: "10-12",
-            target: "Pecho",
-            note: "Foco en la contracción",
-          },
-          {
-            name: "Jalón al Pecho (Polea alta)",
-            sets: "3",
-            reps: "8-10",
-            target: "Dorsales (Amplitud)",
-            note: "Controlar el descenso",
-          },
-          {
-            name: "Remo Sentado Polea Baja",
-            sets: "3",
-            reps: "10-12",
-            target: "Espalda media y dorsal",
-            note: "Sustituto: Estabilidad lumbar",
-          },
-          {
-            name: "Press Militar Máquina/Multi",
-            sets: "3",
-            reps: "8-10",
-            target: "Hombros",
-            note: "Permite mayor cercanía al fallo",
-          },
-          {
-            name: "Elevaciones Laterales",
-            sets: "3",
-            reps: "12-15",
-            target: "Deltoides lateral",
-            note: "Mancuerna o polea",
-          },
-          {
-            name: "Tríceps en Polea Alta",
-            sets: "3",
-            reps: "12-15",
-            target: "Tríceps",
-            note: "Cuerda o barra",
-          },
+          { name: "Press Banca", sets: "3", reps: "8-10", focus: "Pecho", notes: "Control en bajada" },
+          { name: "Remo Mancuerna", sets: "3", reps: "10-12", focus: "Espalda", notes: "Un brazo a la vez" },
+          { name: "Press Hombro Mancuernas", sets: "3", reps: "10-12", focus: "Hombros", notes: "Neutro a pronado" },
+          { name: "Jalón al Pecho", sets: "3", reps: "10-12", focus: "Espalda", notes: "Agarre medio" },
+          { name: "Curl Mancuernas", sets: "2", reps: "12-15", focus: "Bíceps", notes: "Alternado" },
+          { name: "Fondos en Banco", sets: "2", reps: "12-15", focus: "Tríceps", notes: "Codos atrás" },
         ],
       },
       Miércoles: {
-        title: "Pierna (Enfoque Cuádriceps)",
+        name: "Pierna",
+        subtitle: "Enfoque Cuádriceps",
         color: "bg-emerald-600",
         exercises: [
-          {
-            name: "Prensa de Piernas",
-            sets: "3",
-            reps: "10-12",
-            target: "Cuádriceps/General",
-            note: "Pies zona media/baja",
-          },
-          {
-            name: "Sillón de Cuádriceps",
-            sets: "3",
-            reps: "12-15",
-            target: "Cuádriceps (Aislamiento)",
-            note: "Aguantar 1 seg arriba",
-          },
-          {
-            name: "Curl Femoral Tumbado",
-            sets: "4",
-            reps: "10-12",
-            target: "Isquiotibiales",
-            note: "Compensación de peso muerto",
-          },
-          {
-            name: "Aductores en Máquina",
-            sets: "3",
-            reps: "12-15",
-            target: "Aductores",
-            note: "Pausa 1s en contracción máxima",
-          },
+          { name: "Sentadilla Goblet", sets: "3", reps: "10-12", focus: "Cuádriceps", notes: "Peso al pecho" },
+          { name: "Prensa", sets: "3", reps: "12-15", focus: "Cuádriceps", notes: "Pies al centro" },
+          { name: "Extensión Cuádriceps", sets: "3", reps: "15-18", focus: "Cuádriceps", notes: "Contracción lenta" },
+          { name: "Peso Muerto Rumano", sets: "3", reps: "12-15", focus: "Isquiotibiales", notes: "Mancuernas" },
+          { name: "Curl Femoral", sets: "3", reps: "15-18", focus: "Isquiotibiales", notes: "Unilateral" },
+          { name: "Elevación Talones", sets: "3", reps: "18-20", focus: "Pantorrillas", notes: "Pausa abajo" },
         ],
       },
       Viernes: {
-        title: "Torso (Hipertrofia y Detalle)",
+        name: "Torso",
+        subtitle: "Hipertrofia y Detalle",
         color: "bg-violet-600",
         exercises: [
-          {
-            name: "Press Inclinado",
-            sets: "3",
-            reps: "8-10",
-            target: "Pectoral superior",
-            note: "Clave para estética de torso",
-          },
-          {
-            name: "Jalón al Pecho",
-            sets: "3",
-            reps: "10-12",
-            target: "Dorsal y bíceps",
-            note: "Controlar el descenso",
-          },
-          {
-            name: "Peck Deck",
-            sets: "3",
-            reps: "12-15",
-            target: "Aislamiento pecho",
-            note: "Foco en la contracción",
-          },
-          {
-            name: "Deltoide Posterior",
-            sets: "3",
-            reps: "15-20",
-            target: "Deltoide post./Salud",
-            note: "Importante para postura",
-          },
-          {
-            name: "Curl de Bíceps (Barra Z)",
-            sets: "3",
-            reps: "10-12",
-            target: "Bíceps",
-            note: "Controlar fase excéntrica",
-          },
+          { name: "Press Inclinado Mancuernas", sets: "3", reps: "10-12", focus: "Pecho superior", notes: "Unir arriba" },
+          { name: "Remo Cable Sentada", sets: "3", reps: "12-15", focus: "Espalda", notes: "Agarre neutro" },
+          { name: "Aperturas en Máquina", sets: "3", reps: "15-18", focus: "Pecho", notes: "Squeeze al centro" },
+          { name: "Pullover", sets: "3", reps: "12-15", focus: "Espalda/Pecho", notes: "Con mancuerna" },
+          { name: "Elevaciones Laterales", sets: "3", reps: "15-18", focus: "Deltoides", notes: "Peso ligero" },
+          { name: "Face Pull", sets: "3", reps: "18-20", focus: "Deltoides posterior", notes: "Cuerda" },
         ],
       },
       Sábado: {
-        title: "Pierna (Cadena Posterior)",
+        name: "Pierna",
+        subtitle: "Cadena Posterior y Glúteos",
         color: "bg-rose-600",
         exercises: [
-          {
-            name: "Hip Thrust (Barra o Máquina)",
-            sets: "3",
-            reps: "8-10",
-            target: "Glúteo mayor",
-            note: "Sustituto de Peso Muerto",
-          },
-          {
-            name: "Prensa (Pies altos/separados)",
-            sets: "3",
-            reps: "10-12",
-            target: "Glúteo e Isquios",
-            note: "Mayor extensión de cadera",
-          },
-          {
-            name: "Curl Femoral Sentado",
-            sets: "4",
-            reps: "10-15",
-            target: "Isquiotibiales",
-            note: "Máximo estiramiento",
-          },
-          {
-            name: "Aductores en Máquina",
-            sets: "3",
-            reps: "12-15",
-            target: "Aductores",
-            note: "Estabilidad de pierna",
-          },
+          { name: "Hip Thrust", sets: "4", reps: "10-12", focus: "Glúteos", notes: "Barra acolchada" },
+          { name: "Peso Muerto Sumo", sets: "3", reps: "10-12", focus: "Glúteos/Aductores", notes: "Stance amplio" },
+          { name: "Zancadas Caminando", sets: "3", reps: "12-14 c/u", focus: "Glúteos", notes: "Torso erguido" },
+          { name: "Patada de Glúteo", sets: "3", reps: "15-18 c/u", focus: "Glúteos", notes: "En cable" },
+          { name: "Abducción Cadera", sets: "3", reps: "18-20", focus: "Glúteo medio", notes: "En máquina" },
+          { name: "Puente de Glúteo", sets: "3", reps: "20-25", focus: "Glúteos", notes: "Unilateral" },
         ],
       },
     },
-  };
+  },
+};
 
-  const routine = routines[currentUser];
-  const currentDayData = routine[activeDay];
+const dayOrder: DayName[] = ["Lunes", "Miércoles", "Viernes", "Sábado"];
+
+export default function Home() {
+  const [activeDay, setActiveDay] = useState<DayName>("Lunes");
+  const [currentUser, setCurrentUser] = useState<UserName>("Franco");
+
+  const currentRoutine = routines[currentUser];
+  const currentDayInfo = currentRoutine.days[activeDay];
 
   return (
-    <div className="min-h-screen bg-neutral-900 text-neutral-100 p-4 md:p-8 font-sans">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <header className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-white flex items-center gap-2">
-              <Activity className="text-blue-500" /> Plan de Entrenamiento
-            </h1>
-            <p className="text-neutral-400 mt-1">
-              Optimización para Hipertrofia y Salud Lumbar
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="bg-neutral-800 p-2 rounded-xl border border-neutral-700 flex items-center gap-2">
-              <User className="text-blue-400" size={18} />
-              {["Franco", "Leslie"].map((user) => (
+    <div className="min-h-screen bg-neutral-900 text-white">
+      {/* Header */}
+      <header className="border-b border-neutral-800 bg-neutral-900/95 backdrop-blur sticky top-0 z-10">
+        <div className="max-w-4xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className={`p-2 rounded-lg ${currentDayInfo.color}`}>
+                <Activity className="w-6 h-6" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold">Rutina Upper-Lower</h1>
+                <p className="text-sm text-neutral-400">4 días por semana</p>
+              </div>
+            </div>
+
+            {/* User Selector */}
+            <div className="flex items-center gap-2 bg-neutral-800 rounded-lg p-1">
+              {(["Franco", "Leslie"] as UserName[]).map((user) => (
                 <button
                   key={user}
                   onClick={() => setCurrentUser(user)}
-                  className={`px-3 py-1.5 rounded-lg font-medium text-sm transition-all duration-200 ${
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all ${
                     currentUser === user
-                      ? "bg-blue-600 text-white"
-                      : "bg-neutral-700 text-neutral-400 hover:bg-neutral-600"
+                      ? `${currentDayInfo.color} text-white`
+                      : "text-neutral-400 hover:text-white"
                   }`}
                 >
+                  <User className="w-4 h-4" />
                   {user}
                 </button>
               ))}
             </div>
           </div>
-        </header>
+        </div>
+      </header>
 
+      <main className="max-w-4xl mx-auto px-4 py-6">
         {/* Day Selector */}
-        <nav className="grid grid-cols-4 gap-2 mb-8">
-          {Object.keys(routine).map((day) => (
-            <button
-              key={day}
-              onClick={() => setActiveDay(day)}
-              className={`px-2 md:px-5 py-2 md:py-3 rounded-xl font-bold text-xs md:text-base transition-all duration-200 border-b-4 ${
-                activeDay === day
-                  ? `${routine[day].color} text-white border-black/20 translate-y-[-2px] shadow-lg`
-                  : "bg-neutral-800 text-neutral-400 border-neutral-950 hover:bg-neutral-700"
-              }`}
-            >
-              {day}
-            </button>
-          ))}
-        </nav>
+        <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+          {dayOrder.map((day) => {
+            const dayInfo = currentRoutine.days[day];
+            const isActive = activeDay === day;
+            return (
+              <button
+                key={day}
+                onClick={() => setActiveDay(day)}
+                className={`flex-shrink-0 flex items-center gap-2 px-4 py-3 rounded-xl transition-all ${
+                  isActive
+                    ? `${dayInfo.color} text-white shadow-lg`
+                    : "bg-neutral-800 text-neutral-400 hover:bg-neutral-700 hover:text-white"
+                }`}
+              >
+                <Calendar className="w-4 h-4" />
+                <div className="text-left">
+                  <div className="font-semibold">{day}</div>
+                  <div className="text-xs opacity-80">{dayInfo.name}</div>
+                </div>
+                {isActive && <ChevronRight className="w-4 h-4 ml-2" />}
+              </button>
+            );
+          })}
+        </div>
 
-        {/* Active Content */}
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div
-            className={`p-6 rounded-t-2xl ${currentDayData.color} shadow-2xl`}
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <Calendar size={20} className="text-white/80" />
-              <span className="uppercase text-xs font-black tracking-widest text-white/90">
-                Día de Entrenamiento
-              </span>
+        {/* Day Header */}
+        <div className={`rounded-xl p-4 mb-6 ${currentDayInfo.color}`}>
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold">{currentDayInfo.name}</h2>
+              <p className="text-white/80">{currentDayInfo.subtitle}</p>
             </div>
-            <h2 className="text-2xl font-black text-white">
-              {currentDayData.title}
-            </h2>
-          </div>
-
-          <div className="bg-neutral-800 border-x border-b border-neutral-700 rounded-b-2xl overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left">
-                <thead>
-                  <tr className="bg-neutral-850 text-neutral-500 text-xs uppercase font-bold tracking-wider">
-                    <th className="px-3 md:px-6 py-4">Ejercicio</th>
-                    <th className="px-3 md:px-6 py-4">Series</th>
-                    <th className="px-3 md:px-6 py-4 text-center">Enfoque</th>
-                    <th className="px-3 md:px-6 py-4 text-right">Detalle</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-neutral-700">
-                  {currentDayData.exercises.map((ex, idx) => (
-                    <tr
-                      key={idx}
-                      className="hover:bg-neutral-750 transition-colors group"
-                    >
-                      <td className="px-3 md:px-6 py-3 md:py-5">
-                        <div className="flex items-center gap-2 md:gap-3">
-                          <div
-                            className={`w-6 h-6 md:w-8 md:h-8 rounded-lg flex items-center justify-center text-xs font-bold ${currentDayData.color} text-white shrink-0`}
-                          >
-                            {idx + 1}
-                          </div>
-                          <p className="font-bold text-neutral-100 group-hover:text-white text-xs md:text-base">
-                            {ex.name}
-                          </p>
-                        </div>
-                      </td>
-                      <td className="px-3 md:px-6 py-3 md:py-5">
-                        <span className="bg-neutral-900 px-1.5 md:px-2 py-1 rounded text-xs md:text-sm font-mono text-blue-400 border border-neutral-700">
-                          {ex.sets}x{ex.reps}
-                        </span>
-                      </td>
-                      <td className="px-3 md:px-6 py-3 md:py-5 text-center">
-                        <span className="text-[10px] md:text-xs bg-neutral-900/50 px-2 md:px-3 py-1 rounded-full text-neutral-300 border border-neutral-700">
-                          {ex.target}
-                        </span>
-                      </td>
-                      <td className="px-3 md:px-6 py-3 md:py-5 text-right">
-                        <div className="group/note relative inline-block">
-                          <Info
-                            size={18}
-                            className="text-neutral-500 cursor-help hover:text-white transition-colors"
-                          />
-                          <div className="absolute right-0 bottom-full mb-2 w-48 p-3 bg-white text-black text-xs rounded-lg shadow-xl opacity-0 group-hover/note:opacity-100 pointer-events-none transition-opacity z-10 border border-neutral-200">
-                            <p className="font-bold mb-1">Nota Técnica:</p>
-                            {ex.note}
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* General Tips Footer */}
-            <div className="bg-neutral-900/50 p-6 border-t border-neutral-700">
-              <h3 className="text-sm font-bold text-neutral-400 mb-4 flex items-center gap-2">
-                <Zap size={16} className="text-yellow-500" /> PRINCIPIOS DE
-                PROGRESO
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-neutral-800 p-4 rounded-xl border border-neutral-700 flex gap-3">
-                  <Clock className="text-blue-400 shrink-0" size={20} />
-                  <div>
-                    <h4 className="text-xs font-bold text-white">Descanso</h4>
-                    <p className="text-[10px] text-neutral-400">
-                      2-3 min en básicos, 60-90s en accesorios.
-                    </p>
-                  </div>
-                </div>
-                <div className="bg-neutral-800 p-4 rounded-xl border border-neutral-700 flex gap-3">
-                  <ArrowUpCircle
-                    className="text-green-400 shrink-0"
-                    size={20}
-                  />
-                  <div>
-                    <h4 className="text-xs font-bold text-white">Sobrecarga</h4>
-                    <p className="text-[10px] text-neutral-400">
-                      Anota tus pesos. Busca sumar 1 rep o 1kg cada semana.
-                    </p>
-                  </div>
-                </div>
-                <div className="bg-neutral-800 p-4 rounded-xl border border-neutral-700 flex gap-3">
-                  <ChevronRight
-                    className="text-purple-400 shrink-0"
-                    size={20}
-                  />
-                  <div>
-                    <h4 className="text-xs font-bold text-white">RPE 8-9</h4>
-                    <p className="text-[10px] text-neutral-400">
-                      Termina cada serie sintiendo que podías hacer 1 o 2 más.
-                    </p>
-                  </div>
-                </div>
-              </div>
+            <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-1.5">
+              <Clock className="w-4 h-4" />
+              <span className="text-sm font-medium">60-75 min</span>
             </div>
           </div>
         </div>
 
-        <footer className="mt-8 text-center text-neutral-600 text-sm">
-          <p>Enfoque en Estabilidad Mecánica & Protección Lumbar</p>
-        </footer>
-      </div>
+        {/* Exercise Table */}
+        <div className="bg-neutral-800 rounded-xl overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-neutral-700">
+                  <th className="text-left px-4 py-3 text-sm font-semibold text-neutral-300">
+                    Ejercicio
+                  </th>
+                  <th className="text-center px-4 py-3 text-sm font-semibold text-neutral-300">
+                    Series
+                  </th>
+                  <th className="text-center px-4 py-3 text-sm font-semibold text-neutral-300">
+                    Reps
+                  </th>
+                  <th className="text-left px-4 py-3 text-sm font-semibold text-neutral-300 hidden sm:table-cell">
+                    Enfoque
+                  </th>
+                  <th className="text-left px-4 py-3 text-sm font-semibold text-neutral-300 hidden md:table-cell">
+                    Notas
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentDayInfo.exercises.map((exercise, index) => (
+                  <tr
+                    key={index}
+                    className="border-b border-neutral-700/50 hover:bg-neutral-700/30 transition-colors"
+                  >
+                    <td className="px-4 py-3">
+                      <div className="font-medium">{exercise.name}</div>
+                      <div className="text-xs text-neutral-400 sm:hidden">
+                        {exercise.focus}
+                      </div>
+                    </td>
+                    <td className="text-center px-4 py-3">
+                      <span
+                        className={`inline-flex items-center justify-center w-8 h-8 rounded-lg ${currentDayInfo.color} text-sm font-bold`}
+                      >
+                        {exercise.sets}
+                      </span>
+                    </td>
+                    <td className="text-center px-4 py-3 font-medium">
+                      {exercise.reps}
+                    </td>
+                    <td className="px-4 py-3 text-neutral-300 hidden sm:table-cell">
+                      {exercise.focus}
+                    </td>
+                    <td className="px-4 py-3 hidden md:table-cell">
+                      <div className="flex items-center gap-1 text-sm text-neutral-400">
+                        <Info className="w-3 h-3" />
+                        {exercise.notes}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Progress Principles */}
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="bg-neutral-800 rounded-xl p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Clock className="w-5 h-5 text-blue-400" />
+              <h3 className="font-semibold">Descanso</h3>
+            </div>
+            <p className="text-sm text-neutral-400">
+              Compuestos: 2-3 min. Aislamiento: 60-90 seg
+            </p>
+          </div>
+          <div className="bg-neutral-800 rounded-xl p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <ArrowUpCircle className="w-5 h-5 text-green-400" />
+              <h3 className="font-semibold">Sobrecarga</h3>
+            </div>
+            <p className="text-sm text-neutral-400">
+              Aumenta peso cuando completes todas las reps
+            </p>
+          </div>
+          <div className="bg-neutral-800 rounded-xl p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Zap className="w-5 h-5 text-yellow-400" />
+              <h3 className="font-semibold">RPE</h3>
+            </div>
+            <p className="text-sm text-neutral-400">
+              Trabaja a RPE 7-8. Deja 2-3 reps en reserva
+            </p>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
