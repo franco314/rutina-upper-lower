@@ -81,7 +81,8 @@ const App = () => {
           { name: "Prensa de Piernas", sets: "3", reps: "10-12", target: "Cuádriceps/General", note: "Pies zona media/baja" },
           { name: "Sillón de Cuádriceps", sets: "3", reps: "12-15", target: "Cuádriceps (Aislamiento)", note: "Aguantar 1 seg arriba" },
           { name: "Curl Femoral Tumbado", sets: "4", reps: "10-12", target: "Isquiotibiales", note: "Compensación de peso muerto" },
-          { name: "Aductores en Máquina", sets: "3", reps: "12-15", target: "Aductores", note: "Pausa 1s en contracción máxima" }
+          { name: "Aductores en Máquina", sets: "3", reps: "12-15", target: "Aductores", note: "Pausa 1s en contracción máxima" },
+          { name: "Abdominales", sets: "3", reps: "10", target: "Core", note: "" }
         ]
       },
       Viernes: {
